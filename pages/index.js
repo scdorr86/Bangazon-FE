@@ -8,21 +8,9 @@ function Home() {
   const { user } = useAuth();
   const [checkedUser, setCheckedUser] = useState();
 
-  // const chckUser = () => {
-  //   checkUser(user.uid).then((data) => {
-  //     console.log('testing log data', data);
-  //     setCheckedUser(data);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   chckUser();
-  // }, []);
-
-  // // Log the updated value of checkedUser after the state update
-  // useEffect(() => {
-  //   console.log('this is the user:', checkedUser);
-  // }, [checkedUser]); // Only runs when checkedUser changes
+  const onUpdate = () => {
+    checkUser(user.uid).then((data) => setCheckedUser(data));
+  };
 
   useEffect(() => {
     checkUser(user.uid).then((data) => setCheckedUser(data));
@@ -47,7 +35,7 @@ function Home() {
             Sign Out
           </Button>
         </div>
-      ) : (<RegisterForm user={user} updateUser={() => {}} />)}
+      ) : (<RegisterForm user={user} onUpdate={onUpdate} />)}
     </>
   );
 }

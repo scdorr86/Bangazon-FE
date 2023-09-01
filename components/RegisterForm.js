@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { FloatingLabel } from 'react-bootstrap';
 import { registerUser } from '../utils/auth'; // Update with path to registerUser
 
-function RegisterForm({ user, updateUser }) {
+function RegisterForm({ user, onUpdate }) {
   const [formData, setFormData] = useState({
     name: '',
     fBkey: user.uid,
@@ -14,8 +14,11 @@ function RegisterForm({ user, updateUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     console.log('form data:', formData);
-    registerUser(formData).then(() => updateUser(user.uid));
+
+    registerUser(formData);
+    onUpdate();
   };
 
   return (
@@ -25,17 +28,20 @@ function RegisterForm({ user, updateUser }) {
 
         <Form.Control as="textarea" name="name" required placeholder="Enter your username" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
 
-        <FloatingLabel controlId="floatingInput1" label="isSeller" className="mb-3" style={{ color: 'red' }}>
+        <FloatingLabel controlId="floatingInput1" label="Are you a Seller?" className="mb-3" style={{ color: 'red' }}>
           <Form.Select
             type="text"
             placeholder="Are you a seller?"
             name="isSeller"
-            onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))}
+            onChange={({ target }) => {
+              const selectedValue = target.value === 'true'; // Convert to boolean
+              setFormData((prev) => ({ ...prev, [target.name]: selectedValue }));
+            }}
             required
           >
             <option>Are you a seller?</option>
-            <option value style={{ color: 'black' }}>Yes</option>
-            <option value={false} style={{ color: 'black' }}>No</option>
+            <option value="true" style={{ color: 'black' }}>Yes</option>
+            <option value="false" style={{ color: 'black' }}>No</option>
           </Form.Select>
         </FloatingLabel>
 
@@ -52,7 +58,7 @@ RegisterForm.propTypes = {
   user: PropTypes.shape({
     uid: PropTypes.string.isRequired,
   }).isRequired,
-  updateUser: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;
