@@ -19,7 +19,7 @@ function ProductCard({ prodObj }) {
       <div className="card-img" />
       <div className="card-info">
         <p className="text-title">{prodObj?.productName} </p>
-        <p className="text-body">{singleProd.productType.type}</p>
+        <p className="text-body">{singleProd?.productType?.type}</p>
       </div>
       <div className="card-footer">
         <span className="text-title">${prodObj.productPrice}</span>
