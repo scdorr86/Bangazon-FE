@@ -37,9 +37,10 @@ export default function AddProductForm({ obj, onUpdate }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const newValue = name === 'productPrice' || name === 'productTypeId' ? parseFloat(value) : value; // Convert productPrice and productTypeId to a number
     setFormInput((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
